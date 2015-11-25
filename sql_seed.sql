@@ -36,6 +36,8 @@ insert into reviewers(reviewer, hashed_pwd) values
     ('Dave Farber', 'H4SH3dp455w0rDz!');
 insert into reviews(movie_title, review, author) values 
     ('Senior Abnormal Samurai Chickens', 'More sweet, less sour, please.', 'Hungry Hippo'),
+    ('Senior Abnormal Samurai Chickens', 'Obvious cash grab', 'Anemic Antlion'),
+    ('Senior Abnormal Samurai Chickens', 'How about something original?', 'Distended Dingo'),
     ('Adolescent Cancerous Peasant Ducklings', 'Not as good as advertised', 'Bloated Python'),
     ('Teenage Mutant Ninja Turkeys', 'I guess I liked it, but I''m sure I''m hungry', 'Dave Farber');
 insert into movies(title, freshness, director, year, rating, runtime, box_office) values 

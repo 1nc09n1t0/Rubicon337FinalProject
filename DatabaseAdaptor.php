@@ -21,15 +21,75 @@
 				exit ();
 			}
 		}
+
+		/*
+			REVIEWER TABLE FUNCTIONS
+			1) getReviewersAsArray(): returns all the reviewers
+			2) registerReviewer(): adds a reviewer
+			3) verifiedReviewer(): returns boolean, checks matching password
+		*/
 		
-		// Returns the all the reviewers in the DB
+		// 1) getReviewersAsArray(): returns all the reviewers
+		//		Use this to verify uniqueness of reviewerID in php
 		public function getReviewersAsArray() {
 			// possible values of flagged are 't', 'f';
 			$stmt = $this->DB->prepare ( "SELECT * FROM reviewers ORDER BY id" );
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
+
+		// 2) registerReviewer(): adds a reviewer
+		// Registers a new Reviewer given a reviewer's name and password(stored as hash)
+		public function registerReviewer($reviewer, $password) {
+			$hashed_pwd = password_hash($password, PASSWORD_DEFAULT);
+			$stmt = $this->DB->prepare ( "INSERT INTO reviewers (reviewer, hashed_pwd) values (:reviewer, :hashed_pwd)" );
+			$stmt->bindParam ( 'reviewer', $reviewer );
+			$stmt->bindParam ( 'hashed_pwd', $hashed_pwd );
+			$stmt->execute ();
+		}
+
+		//3) verifiedReviewer(): returns boolean, checks matching password
+		public function verifiedReviewer($reviewer, $password) {
+			$stmt = $this->DB->prepare ( "SELECT * FROM reviewers WHERE reviewer= :reviewer" );
+			$stmt->bindParam ( 'reviewer', $reviewer );
+			$stmt->execute ();
+			$currentRecord = $stmt->fetch ();
+			$hashed_pwd = $currentRecord ['hashed_pwd'];
+			return password_verify($password, $hashed_pwd);
+		}
+
+		/*
+			REVIEWS TABLE FUNCTIONS
+
+			1) getAllReviewsAsArray(): Returns EVERY review in the db:
+			2) getAllReviewsAsArrayByMovieTitle(movie_title): Returns all reviews for a given movie's 		title
+			3) InsertReview(reviewerName,review):
+			4) deleteReview(id): 
+			5) updateReview(id, review):
+
+		*/
 		
+		//1) getAllReviewsAsArray(): Returns EVERY review in the db:
+		public function getAllReviewsAsArray() {
+			// possible values of flagged are 't', 'f';
+			$stmt = $this->DB->prepare ( "SELECT * FROM reviews ORDER BY id" );
+			$stmt->execute ();
+			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
+		}
+
+		//2) getAllReviewsByMovie(movieName): Returns all reviews for a given movieName
+		public function getAllReviewsAsArrayByMovie($movie_title) {
+			// possible values of flagged are 't', 'f';
+			$stmt = $this->DB->prepare ( "SELECT * FROM reviews WHERE movie_title= :movie_title ORDER BY id" );
+			$stmt->bindParam ( 'movie_title', $movie_title );
+			$stmt->execute ();
+			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
+		}
+
+		/*
+			MOVIES TABLE FUNCTIONS
+		*/
+
 		// Insert a new quote into the database
 		public function addNewQuote($quote, $author) {
 			$stmt = $this->DB->prepare ( "INSERT INTO quote (added, quote, author, rating, flagged ) values(now(), :quote, :author, 0, 'f')" );
