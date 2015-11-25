@@ -27,12 +27,12 @@
 			1) getReviewersAsArray(): returns all the reviewers
 			2) registerReviewer(): adds a reviewer
 			3) verifiedReviewer(): returns boolean, checks matching password
+			4) removeAllDuckTypedRecords(): Removes reviewers with %ducktyped%
 		*/
 		
 		// 1) getReviewersAsArray(): returns all the reviewers
 		//		Use this to verify uniqueness of reviewerID in php
 		public function getReviewersAsArray() {
-			// possible values of flagged are 't', 'f';
 			$stmt = $this->DB->prepare ( "SELECT * FROM reviewers ORDER BY id" );
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
@@ -58,6 +58,13 @@
 			return password_verify($password, $hashed_pwd);
 		}
 
+		//4) removeAllDuckTypedRecords(): Removes reviewers with %ducktyped%
+		public function removeAllDuckTypedRecords() {
+			$stmt = $this->DB->prepare ( "DELETE FROM reviewers WHERE reviewer LIKE '%duckTyped%'" );
+			$stmt->execute ();
+		}
+		
+
 		/*
 			REVIEWS TABLE FUNCTIONS
 
@@ -71,7 +78,6 @@
 		
 		//1) getAllReviewsAsArray(): Returns EVERY review in the db:
 		public function getAllReviewsAsArray() {
-			// possible values of flagged are 't', 'f';
 			$stmt = $this->DB->prepare ( "SELECT * FROM reviews ORDER BY id" );
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
@@ -112,13 +118,51 @@
 
 		/*
 			MOVIES TABLE FUNCTIONS
-			1) getMovies():
-			2) createMovie():
-			3) updateMovie():
-			4) deleteMovie():
-
+			1) getAllMoviesAsArray(): Returns an array of all the movies in the database.
+			2) createMovie(title, freshness, director, year, rating, runtime, box_office): Creates a new movie in movies table
+			3) updateMovie(title, freshness, director, year, rating, runtime, box_office): Updates a movie row in the movies table. Id is unnecessary since titles should be unique
+			4) deleteMovie(id): Deletes a movie
 		*/
 
+		// 1) getAllMoviesAsArray(): Returns an array of all the movies in the database.
+		public function getAllMoviesAsArray(){
+			$stmt = $this->DB->prepare ( "SELECT * FROM movies ORDER BY id" );
+			$stmt->execute ();
+			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
+		}
+
+		// 2) createMovie(title, freshness, director, year, rating, runtime, box_office): Creates a new movie in movies table
+		public function createMovie($title, $freshness, $director, $year, $rating, $runtime, $box_office) {
+			$stmt = $this->DB->prepare ( "INSERT INTO movies(title, freshness, director, year, rating, runtime, box_office) values  (:title, :freshness, :director, :year, :rating, :runtime, :box_office)" );
+			$stmt->bindParam ( 'title', $title );
+			$stmt->bindParam ( 'freshness', $freshness );
+			$stmt->bindParam ( 'director', $director );
+			$stmt->bindParam ( 'year', $year );
+			$stmt->bindParam ( 'rating', $rating );
+			$stmt->bindParam ( 'runtime', $runtime );
+			$stmt->bindParam ( 'box_office', $box_office );
+			$stmt->execute ();
+		}
+
+		// 3) updateMovie(title, freshness, director, year, rating, runtime, box_office): Updates a movie row in the movies table. Id is unnecessary since titles should be unique
+		public function updateMovie($title, $freshness, $director, $year, $rating, $runtime, $box_office) {
+			$stmt = $this->DB->prepare ( "UPDATE movies SET freshness=:freshness, director=:director, year=:year, rating=:rating, runtime=:runtime, box_office=:box_office WHERE title=:title" );
+			$stmt->bindParam ( 'title', $title );
+			$stmt->bindParam ( 'freshness', $freshness );
+			$stmt->bindParam ( 'director', $director );
+			$stmt->bindParam ( 'year', $year );
+			$stmt->bindParam ( 'rating', $rating );
+			$stmt->bindParam ( 'runtime', $runtime );
+			$stmt->bindParam ( 'box_office', $box_office );
+			$stmt->execute ();
+		}
+
+		// 4) deleteMovie(id): Deletes a movie
+		public function deleteMovie($id) {
+			$stmt = $this->DB->prepare ( "DELETE FROM movies WHERE id=:id" );
+			$stmt->bindParam ( 'id', $id );
+			$stmt->execute ();
+		}
 		
 	} // end class DatabaseAdaptor
 	
@@ -128,36 +172,19 @@
 	// At first, every assert will generate a red warning.  
 	$myDatabaseFunctions = new DatabaseAdaptor ();
 	
-	// Test unFlagAll
-	$myDatabaseFunctions->unflagAll ();
-	// You need at least three quotes with id = 1, 2, and 3
-	$myDatabaseFunctions->flag ( 1 );
-	$myDatabaseFunctions->flag ( 2 );
-	$myDatabaseFunctions->flag ( 3 );
-	assert ( $myDatabaseFunctions->isFlagged ( 1 ) );
-	assert ( $myDatabaseFunctions->isFlagged ( 2 ) );
-	assert ( $myDatabaseFunctions->isFlagged ( 3 ) );
-	
-	$myDatabaseFunctions->unflagAll ();
-	assert ( ! $myDatabaseFunctions->isFlagged ( 1 ) );
-	assert ( ! $myDatabaseFunctions->isFlagged ( 2 ) );
-	assert ( ! $myDatabaseFunctions->isFlagged ( 3 ) );
-	
-	// //////////////////////////////////////////////////////////////////////////////////////////////
-	
 	// Test register and verifyPassword
-	assert ( ! $myDatabaseFunctions->verified ( "duckTyped1", "abcdef" ) );
-	assert ( ! $myDatabaseFunctions->verified ( "duckTyped2", "123456" ) );
-	assert ( ! $myDatabaseFunctions->verified ( "duckTyped3", "sT6_quote_uT1" ) );
+	assert ( ! $myDatabaseFunctions->verifiedReviewer ( "duckTyped1", "abcdef" ) );
+	assert ( ! $myDatabaseFunctions->verifiedReviewer ( "duckTyped2", "123456" ) );
+	assert ( ! $myDatabaseFunctions->verifiedReviewer ( "duckTyped3", "sT6_quote_uT1" ) );
 	
 	// precondition: The user name, the first argument here, is not in table users
-	$myDatabaseFunctions->register ( "duckTyped1", "abcdef" );
-	$myDatabaseFunctions->register ( "duckTyped2", "123456" );
-	$myDatabaseFunctions->register ( "duckTyped3", "sT6_quote_uT1" );
+	$myDatabaseFunctions->registerReviewer ( "duckTyped1", "abcdef" );
+	$myDatabaseFunctions->registerReviewer ( "duckTyped2", "123456" );
+	$myDatabaseFunctions->registerReviewer ( "duckTyped3", "sT6_quote_uT1" );
 	
-	assert ( $myDatabaseFunctions->verified ( "duckTyped1", "abcdef" ) );
-	assert ( $myDatabaseFunctions->verified ( "duckTyped2", "123456" ) );
-	assert ( $myDatabaseFunctions->verified ( "duckTyped3", "sT6_quote_uT1" ) );
+	assert ( $myDatabaseFunctions->verifiedReviewer ( "duckTyped1", "abcdef" ) );
+	assert ( $myDatabaseFunctions->verifiedReviewer ( "duckTyped2", "123456" ) );
+	assert ( $myDatabaseFunctions->verifiedReviewer ( "duckTyped3", "sT6_quote_uT1" ) );
 	
 	// Remove any records that may have been added by calling this method (or do it from MariaDB [quotes]>
 	$myDatabaseFunctions->removeAllDuckTypedRecords ();
