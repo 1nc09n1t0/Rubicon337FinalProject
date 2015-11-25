@@ -1,0 +1,132 @@
+@charset "UTF-8";
+
+body{
+	margin: 0;
+    padding: 0; 
+    background-image: url("images/moviebg.png");
+    font-size: 10pt;
+    font-family: "Arial", Helvetica, sans-serif;
+}
+
+h1 {
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 24pt;
+    text-shadow: 3px 3px #999999;
+    text-align: center;
+}
+
+.banner{
+	background-image: url("images/rancidbannerbg.png");
+  	width: 100%;
+	margin-left: 0;
+    margin-right: 0;
+    padding: 0; 
+    height: 50px;
+}
+
+.banner-centered{
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.big-container{
+	border-radius: 50px;
+    width: 800px;  
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    overflow: hidden;
+    background: #EEEEEE;
+    box-shadow: 10px 10px 5px #888888;
+}
+
+.left-section{
+	width: 550px;
+	background: #EEEEEE;
+	float: left;
+}
+
+.rating-box{
+	height: 83px;
+	color: red;
+  	font-weight: bold;
+	font-size: 48pt;
+	background-image: url("images/rottenlargebg.png");
+	width: auto;
+}
+
+img.bottom{
+	vertical-align: text-bottom;
+}
+
+.reviews-box{
+	overflow: hidden;
+	width: auto;
+	height: auto;
+}
+
+.col-reviews{
+	width:47%;
+	float:left;
+	padding: 8px;
+	background: #EEEEEE;
+}
+
+
+.overview{
+	float:left;
+	background: #A2B964;
+	width: 250px;
+	font-size: 10pt;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.overview-text{
+	padding: 10pt;
+}
+
+dt{
+	margin-top: 10pt;
+	font-weight: bold;
+}
+
+.footer{
+	clear:both;
+	margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    background: #A2B964;
+    padding: 5px;
+}
+
+.quote{
+	background: #FFFFFF;
+	border: 2px solid #CCCCCC;
+	border-radius: 20px;
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 10pt;
+	padding: 8px;
+	margin-right: 5px;
+}
+
+.quoter{
+	margin: 20px;
+}
+
+
+a.critic{
+	display:block;
+	float: left;
+}
+
+
+img.icon{
+	margin-right:5px;
+}
+
+
+img.icon.bottom{
+	float: left;
+}
