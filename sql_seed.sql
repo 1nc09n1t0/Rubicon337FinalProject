@@ -9,7 +9,7 @@ user_name varchar(64) NOT NULL default '',
 password varchar(255) NOT NULL default ''
 first_name varchar(64) NOT NULL default '',
 last_name varchar(64) NOT NULL default '',
-publication varchar(64) NOT NULL default '',
+publication varchar(64) NOT NULL default ''
 );
 
 
@@ -18,7 +18,8 @@ CREATE TABLE reviews(
 id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 movie_title varchar(64) NOT NULL default '',
 review varchar(2000) NOT NULL default '',
-author varchar(64) NOT NULL default ''
+author varchar(64) NOT NULL default '',
+publication varchar(100) NOT NULL default ''
 );
 
 drop table if exists movies;
