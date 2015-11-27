@@ -7,10 +7,31 @@
 </head>
 
 <body>
-<h1>Login/Register</h1>
-<h2>Here is where the user can create a new review or update a review that they've made</h2>
+<h1>Create Review</h1>
+
+<br>
+<h4>Movie Title: Title of Movie</h4>
 
 
+<h4>Name: User First and Last Name</h4>
+
+
+<h4>Publication: User Publication Name</h4>
+
+<form action = "new-review.php">
+	<h4>Review <textarea name = "review_body" rows = "5" cols = "30" required></textarea></h4>
+
+	<h4>Rating 
+	<input type = "radio" name = "user_rating" value = "rotten" required> Rotten
+	<br>
+	<input type = "radio" name = "user_rating" value = "fresh" required> Fresh
+	</h4>
+
+	<input type = "submit" value = "Add Review"
+</form>
+
+<br><br>
+<a href = "title.html">Cancel</a>
 
 </body>
 
