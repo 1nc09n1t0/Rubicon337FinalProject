@@ -5,8 +5,11 @@
 drop table if exists reviewers;
 CREATE TABLE reviewers (
 id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-reviewer varchar(64) NOT NULL default '',
-hashed_pwd varchar(255) NOT NULL default ''
+user_name varchar(64) NOT NULL default '',
+password varchar(255) NOT NULL default ''
+first_name varchar(64) NOT NULL default '',
+last_name varchar(64) NOT NULL default '',
+publication varchar(64) NOT NULL default '',
 );
 
 
