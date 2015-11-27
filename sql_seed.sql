@@ -25,6 +25,7 @@ publication varchar(100) NOT NULL default ''
 drop table if exists movies;
 CREATE TABLE movies(
 id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+author varchar(64) NOT NULL default '',
 title varchar(64) NOT NULL default '',
 freshness INT NOT NULL default 0,
 director varchar(100) NOT NULL default '',
