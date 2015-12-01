@@ -27,40 +27,65 @@
 			1) getReviewersAsArray(): returns all the reviewers
 			2) registerReviewer(): adds a reviewer
 			3) verifiedReviewer(): returns boolean, checks matching password
-			4) removeAllDuckTypedRecords(): Removes reviewers with %ducktyped%
+			4) getAuthor(): returns the concatenation for the first name, space, and lastname for a user_name
+			5) getPublication():
+			6) removeAllDuckTypedAccounts(): Removes accounts with %ducktyped%
 		*/
 		
-		// 1) getReviewersAsArray(): returns all the reviewers
+		// 1) getAccountsAsArray(): returns all the user accounts
 		//		Use this to verify uniqueness of reviewerID in php
-		public function getReviewersAsArray() {
-			$stmt = $this->DB->prepare ( "SELECT * FROM reviewers ORDER BY id" );
+		public function getAccountsAsArray() {
+			$stmt = $this->DB->prepare ( "SELECT * FROM accounts ORDER BY id" );
 			$stmt->execute ();
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
 
-		// 2) registerReviewer(): adds a reviewer
-		// Registers a new Reviewer given a reviewer's name and password(stored as hash)
-		public function registerReviewer($reviewer, $password) {
+		// 2) registerUserName(): adds a user
+		// Registers a new user_name given a reviewer's name, password(stored as hash), first name, last name, and publication.
+		public function registerUserName($user_name, $password, $first_name, $last_name, $publication) {
 			$hashed_pwd = password_hash($password, PASSWORD_DEFAULT);
-			$stmt = $this->DB->prepare ( "INSERT INTO reviewers (reviewer, hashed_pwd) values (:reviewer, :hashed_pwd)" );
-			$stmt->bindParam ( 'reviewer', $reviewer );
+			$stmt = $this->DB->prepare ( "INSERT INTO accounts (user_name, password, first_name, last_name, publication ) values (:user_name, :hashed_pwd, :first_name, :last_name, :publication)" );
+			$stmt->bindParam ( 'user_name', $user_name );
 			$stmt->bindParam ( 'hashed_pwd', $hashed_pwd );
+			$stmt->bindParam ( 'first_name', $first_name );
+			$stmt->bindParam ( 'last_name', $last_name );
+			$stmt->bindParam ( 'publication', $publication );
 			$stmt->execute ();
 		}
 
-		//3) verifiedReviewer(): returns boolean, checks matching password
-		public function verifiedReviewer($reviewer, $password) {
-			$stmt = $this->DB->prepare ( "SELECT * FROM reviewers WHERE reviewer= :reviewer" );
-			$stmt->bindParam ( 'reviewer', $reviewer );
+		//3) verifiedUserName(): returns boolean, checks matching password
+		public function verifiedUserName($user_name, $password) {
+			$stmt = $this->DB->prepare ( "SELECT * FROM accounts WHERE user_name= :user_name" );
+			$stmt->bindParam ( 'user_name', $user_name );
 			$stmt->execute ();
 			$currentRecord = $stmt->fetch ();
-			$hashed_pwd = $currentRecord ['hashed_pwd'];
+			$hashed_pwd = $currentRecord ['password'];
 			return password_verify($password, $hashed_pwd);
 		}
 
-		//4) removeAllDuckTypedRecords(): Removes reviewers with %ducktyped%
-		public function removeAllDuckTypedRecords() {
-			$stmt = $this->DB->prepare ( "DELETE FROM reviewers WHERE reviewer LIKE '%duckTyped%'" );
+		//4)
+		public function getAuthor($user_name){
+			$stmt = $this->DB->prepare ( "SELECT * FROM accounts WHERE user_name= :user_name" );
+			$stmt->bindParam ( 'user_name', $user_name );
+			$stmt->execute ();
+			$currentRecord = $stmt->fetch ();
+			$author = $currentRecord ['first_name'] . ' ' . $currentRecord['last_name'];
+			return $author;
+		} 
+
+		//5)
+		public function getPublication($user_name){
+			$stmt = $this->DB->prepare ( "SELECT * FROM accounts WHERE user_name= :user_name" );
+			$stmt->bindParam ( 'user_name', $user_name );
+			$stmt->execute ();
+			$currentRecord = $stmt->fetch ();
+			$publication = $currentRecord ['publication'];
+			return $publication;
+		}
+
+		//6) removeAllDuckTypedAccounts(): Removes userNames with %ducktyped%
+		public function removeAllDuckTypedAccounts() {
+			$stmt = $this->DB->prepare ( "DELETE FROM accounts WHERE user_name LIKE '%duckTyped%'" );
 			$stmt->execute ();
 		}
 		
@@ -69,8 +94,8 @@
 			REVIEWS TABLE FUNCTIONS
 
 			1) getAllReviewsAsArray(): Returns EVERY review in the db:
-			2) getAllReviewsAsArrayByMovieTitle(movie_title): Returns all reviews for a given movie's 		title
-			3) 3) createReview(movie_title,review, author): Insert a new movie review
+			2) getAllReviewsAsArrayByMovieTitle(movie_title): Returns all reviews for a given movie's title
+			3) createReview(movie_title,review, user_name): Insert a new movie review
 			4) deleteReview(id): 
 			5) updateReview(id, review):
 
@@ -92,12 +117,12 @@
 			return $stmt->fetchAll ( PDO::FETCH_ASSOC );
 		}
 
-		// 3) createReview(movie_title,review, author): Insert a new movie review
-		public function createReview($movie_title, $review, $author) {
-			$stmt = $this->DB->prepare ( "INSERT INTO reviews (movie_title, review, author) values (:movie_title, :review, :author)" );
+		// 3) createReview(movie_title,review, user_name: Insert a new movie review
+		public function createReview($movie_title, $review, $user_name) {
+			$stmt = $this->DB->prepare ( "INSERT INTO reviews (movie_title, review, user_name) values (:movie_title, :review, :user_name)" );
 			$stmt->bindParam ( 'movie_title', $movie_title );
 			$stmt->bindParam ( 'review', $review );
-			$stmt->bindParam ( 'author', $author );
+			$stmt->bindParam ( 'user_name', $user_name );
 			$stmt->execute ();
 		}
 
@@ -132,8 +157,9 @@
 		}
 
 		// 2) createMovie(title, freshness, director, year, rating, runtime, box_office): Creates a new movie in movies table
-		public function createMovie($title, $freshness, $director, $year, $rating, $runtime, $box_office) {
-			$stmt = $this->DB->prepare ( "INSERT INTO movies(title, freshness, director, year, rating, runtime, box_office) values  (:title, :freshness, :director, :year, :rating, :runtime, :box_office)" );
+		public function createMovie($user_name, $title, $freshness, $director, $year, $rating, $runtime, $box_office) {
+			$stmt = $this->DB->prepare ( "INSERT INTO movies(user_name, title, freshness, director, year, rating, runtime, box_office) values  (:user_name, :title, :freshness, :director, :year, :rating, :runtime, :box_office)" );
+			$stmt->bindParam ( 'user_name', $user_name );
 			$stmt->bindParam ( 'title', $title );
 			$stmt->bindParam ( 'freshness', $freshness );
 			$stmt->bindParam ( 'director', $director );
@@ -173,20 +199,30 @@
 	$myDatabaseFunctions = new DatabaseAdaptor ();
 	
 	// Test register and verifyPassword
-	assert ( ! $myDatabaseFunctions->verifiedReviewer ( "duckTyped1", "abcdef" ) );
-	assert ( ! $myDatabaseFunctions->verifiedReviewer ( "duckTyped2", "123456" ) );
-	assert ( ! $myDatabaseFunctions->verifiedReviewer ( "duckTyped3", "sT6_quote_uT1" ) );
+	assert ( ! $myDatabaseFunctions->verifiedUserName ( "duckTyped1", "abcdef" ) );
+	assert ( ! $myDatabaseFunctions->verifiedUserName ( "duckTyped2", "123456" ) );
+	assert ( ! $myDatabaseFunctions->verifiedUserName ( "duckTyped3", "sT6_quote_uT1" ) );
 	
 	// precondition: The user name, the first argument here, is not in table users
-	$myDatabaseFunctions->registerReviewer ( "duckTyped1", "abcdef" );
-	$myDatabaseFunctions->registerReviewer ( "duckTyped2", "123456" );
-	$myDatabaseFunctions->registerReviewer ( "duckTyped3", "sT6_quote_uT1" );
+	$myDatabaseFunctions->registerUserName ( "duckTyped1", "abcdef", "firsty1", "lasty1", "publicationy1");
+	$myDatabaseFunctions->registerUserName ( "duckTyped2", "123456", "firsty2", "lasty2", "publicationy2" );
+	$myDatabaseFunctions->registerUserName ( "duckTyped3", "sT6_quote_uT1", "firsty3", "lasty3", "publicationy3" );
 	
-	assert ( $myDatabaseFunctions->verifiedReviewer ( "duckTyped1", "abcdef" ) );
-	assert ( $myDatabaseFunctions->verifiedReviewer ( "duckTyped2", "123456" ) );
-	assert ( $myDatabaseFunctions->verifiedReviewer ( "duckTyped3", "sT6_quote_uT1" ) );
+	assert ( $myDatabaseFunctions->verifiedUserName ( "duckTyped1", "abcdef" ) );
+	assert ( $myDatabaseFunctions->verifiedUserName ( "duckTyped2", "123456" ) );
+	assert ( $myDatabaseFunctions->verifiedUserName ( "duckTyped3", "sT6_quote_uT1" ) );
+
+	// Test retrieving first and last name given a user_name (to create Firstname lastname concatenation for reviews)
+	assert ( strcmp($myDatabaseFunctions->getAuthor ("duckTyped1"), "firsty1 lasty1")===0 );
+	assert ( strcmp($myDatabaseFunctions->getAuthor ("duckTyped2"), "firsty2 lasty2")===0 );
+	assert ( strcmp($myDatabaseFunctions->getAuthor ("duckTyped3"), "firsty3 lasty3")===0 );
+
+	// Test retrieving publication given a user_name
+	assert ( strcmp($myDatabaseFunctions->getPublication ("duckTyped1"), "publicationy1")===0 );
+	assert ( strcmp($myDatabaseFunctions->getPublication ("duckTyped2"), "publicationy2")===0 );
+	assert ( strcmp($myDatabaseFunctions->getPublication ("duckTyped3"), "publicationy3")===0 );
 	
 	// Remove any records that may have been added by calling this method (or do it from MariaDB [quotes]>
-	$myDatabaseFunctions->removeAllDuckTypedRecords ();
-	
+	$myDatabaseFunctions->removeAllDuckTypedAccounts ();
+
 	?>
