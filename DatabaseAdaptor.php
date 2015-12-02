@@ -118,10 +118,11 @@
 		}
 
 		// 3) createReview(movie_title,review, user_name: Insert a new movie review
-		public function createReview($movie_title, $review, $user_name) {
-			$stmt = $this->DB->prepare ( "INSERT INTO reviews (movie_title, review, user_name) values (:movie_title, :review, :user_name)" );
+		public function createReview($movie_title, $review, $is_fresh, $user_name) {
+			$stmt = $this->DB->prepare ( "INSERT INTO reviews (movie_title, review, isfresh, user_name) values (:movie_title, :review, :is_fresh, :user_name)" );
 			$stmt->bindParam ( 'movie_title', $movie_title );
 			$stmt->bindParam ( 'review', $review );
+			$stmt->bindParam ( 'is_fresh, $is_fresh')
 			$stmt->bindParam ( 'user_name', $user_name );
 			$stmt->execute ();
 		}
@@ -138,6 +139,12 @@
 			$stmt = $this->DB->prepare ( "UPDATE reviews SET review=:review WHERE id=:id" );
 			$stmt->bindParam ( 'id', $id );
 			$stmd->bindParam ('review', $review);
+			$stmt->execute ();
+		}
+
+		//6) removeAllDuckTypedReviews(): Removes userNames with %ducktyped%
+		public function removeAllDuckTypedReviews() {
+			$stmt = $this->DB->prepare ( "DELETE FROM reviews WHERE movie_title LIKE '%duckTyped%'" );
 			$stmt->execute ();
 		}
 
@@ -222,7 +229,11 @@
 	assert ( strcmp($myDatabaseFunctions->getPublication ("duckTyped2"), "publicationy2")===0 );
 	assert ( strcmp($myDatabaseFunctions->getPublication ("duckTyped3"), "publicationy3")===0 );
 	
-	// Remove any records that may have been added by calling this method (or do it from MariaDB [quotes]>
+	// Remove any accounts that may have been added by calling this method (or do it from MariaDB [quotes]>
 	$myDatabaseFunctions->removeAllDuckTypedAccounts ();
+
+	// Tests for escaped entries. Handled by PDO prepare, apparently.
+	$myDatabaseFunctions->createReview("duckTyped Movie With Quotes in Review", "Isn't it the case that I'm writing a movie's review using quotes?","FRESH" , "myUserName");
+	$myDatabaseFunctions->removeAllDuckTypedReviews();
 
 	?>

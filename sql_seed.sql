@@ -18,6 +18,7 @@ CREATE TABLE reviews(
 id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 movie_title varchar(64) NOT NULL default '',
 review varchar(2000) NOT NULL default '',
+is_fresh varchar(6) NOT NULL default '',
 author varchar(64) NOT NULL default '',
 publication varchar(100) NOT NULL default ''
 );
@@ -40,11 +41,8 @@ insert into accounts(user_name, password, first_name, last_name, publication) va
     ('KWalken', '4n0th3RH4SH3dp455w0rDz!', 'Kyle', 'Walken', 'Step By Step'),
     ('DFarber', 'H4SH3dp455w0rDz!', 'Dave', 'Farber', 'Fox Groomers');
 insert into reviews(movie_title, review, author, publication) values 
-    ('Senior Abnormal Samurai Chickens', 'More sweet, less sour, please.', 'CWalken', 'Promenade'),
-    ('Senior Abnormal Samurai Chickens', 'Obvious cash grab', 'KWalken', 'Step By Step'),
-    ('Senior Abnormal Samurai Chickens', 'How about something original?', 'DFarber','Fox Groomers'),
-    ('Adolescent Cancerous Peasant Ducklings', 'Not as good as advertised', 'DFarber','Fox Groomers'),
-    ('Teenage Mutant Ninja Turkeys', 'I guess I liked it, but I''m sure I''m hungry', 'DFarber','Fox Groomers');
+    ('The Princess Bride', 'One of Reiner''s most entertaining films, effective as a swashbuckling epic, romantic fable, and satire of these genres.', 'FRESH', 'Emanuel Levy', 'Emanuel Levy'),
+    ('The Princess Bride', 'Based on William Goldman''s novel, this is a post-modern fairy tale that challenges and affirms the conventions of a genre that may not be flexible enough to support such horseplay.', 'ROTTEN', 'Variety Staff', 'Variety');
 insert into movies(user_name, title, freshness, director, year, rating, runtime, box_office) values 
     ('CWalken','Senior Abnormal Samurai Chickens', 11, 'director 1', 1999, 'G', 0, 0),
     ('KWalken','Adolescent Cancerous Peasant Ducklings', 22, 'director 2', 1999, 'PG', -12, -999999999),
