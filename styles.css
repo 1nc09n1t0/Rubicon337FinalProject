@@ -130,3 +130,19 @@ img.icon{
 img.icon.bottom{
 	float: left;
 }
+
+.search{
+	float: left;
+	padding: 8px;
+	margin: 10px;
+}
+
+.title-box{
+	background-color: white;
+	border-radius: 15px;
+	float: left;
+	width: 600px;
+	height: 190px;
+	padding: 8px;
+	margin: 10px;
+}

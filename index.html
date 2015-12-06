@@ -14,6 +14,58 @@
 <a href="new-review.html">Make/Update Review</a><br>
 <a href="new-movie.html">Make/Update Movie</a><br>
 
+	<div class="search">
+		Search <input type="text" id="text-search" oninput="getTitles()">
+	</div>
+	<br><br>
+	<p>Suggested titles: </p>
+	<br>
+	<div id="movie-titles" class="title-box"></div>
+
+	<script>
+
+		 function getTitles(){
+			 var titleString = document.getElementById("text-search").value;
+			 var xhttp = new XMLHttpRequest();
+
+			 // This anonymous callback will execute when the server responds
+			 xhttp.onreadystatechange = function() {
+
+			 var response = "" + xhttp.responseText.toString();
+
+			 // States 0 1 2 3 4 (4 means success)
+			 // 404 would be bad xhttp.status, 200 is good
+			 if (xhttp.readyState == 4 && xhttp.status == 200) {
+					var resultArray = JSON.parse(response);
+
+					var resultString = "";
+
+					if (resultArray.length==0){
+						document.getElementById("movie-titles").innerHTML = "(No movie titles match this search)";
+					}
+					else{
+						for ( i = 0; i<resultArray.length; i++){
+							resultString = resultString + resultArray[i] + "<br>";
+						}
+
+						//Values for first box
+						var first10 = "";
+						for ( i = 0; i<resultArray.length; i++){
+							if (i>=10){
+								 break;
+							}
+							first10 = first10 + resultArray[i] + "<br>";
+						}
+						document.getElementById("movie-titles").innerHTML = first10;
+					}
+			 }
+		 }
+		// Can use POST or GET
+		xhttp.open("GET", "movieSearch.php?titleString=" + titleString, true);
+		xhttp.send();
+		 }
+	</script>
+
 
 </body>
 
