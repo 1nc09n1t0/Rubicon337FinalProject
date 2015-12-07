@@ -1,14 +1,27 @@
 <?php
 // Start the session
+
+include 'DatabaseAdaptor.php';
 session_start();
 
    	if( !isset( $_SESSION['username'] ) )
    	{
 		$_SESSION['username'] = "Not logged in";
+		$username = "username: " . $_SESSION['username'];
+		echo $username;
+
+	}else{
+
+		$myDBAdaptor = new DatabaseAdaptor();
+		$username = "username: " . $_SESSION['username'];
+		echo $username;
+		$author = $myDBAdaptor->getAuthor($username);
+		echo "<br>author: '" . $author . "'";
 	}
 
-	$username = "username: " . $_SESSION['username'];
-	echo $username;
+
+
+
 
 ?>
 
@@ -23,11 +36,9 @@ session_start();
 <body>
 
 <h1>Index</h1>
-<a href="review.php">Review Page</a><br>
 <a href="login-register.php">Login/Register Reviewer</a><br>
 <a href="new-review.php">Make/Update Review</a><br>
 <a href="new-movie.php">Make/Update Movie</a><br>
-<a href="clear-session.php">Clear session data</a><br>
 <form action = "login-controller.php?">
 	<input type = "hidden" name = "action" value = "logout">
 
