@@ -35,6 +35,11 @@ session_start();
 
 <body>
 
+<div class="banner">
+		<img class="banner-centered" src="images/rancidbanner.png"
+			alt="Rancid Tomatoes">
+</div>
+
 <h1>Index</h1>
 <a href="login-register.php">Login/Register Reviewer</a><br>
 <a href="new-review.php">Make/Update Review</a><br>
