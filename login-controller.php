@@ -2,29 +2,32 @@
  	session_start();
 
 
-	// include 'model.php';
-	// $model = new Model();
+	include 'DatabaseAdaptor.php';
+	
 	$action =  $_GET['action'];
+	
+	//login
 	$username = $_GET['username'];
 	$password = $_GET['password'];
 
+	$first_name = $_GET['first_name'];
+	$last_name = $_GET['last_name'];
+	$publication = $_GET['publication'];
+
+
 	if(strcmp($action,"login")==0){
 
-		   if( isset( $_SESSION['counter'] ) )
-		   {
-		      $_SESSION['counter'] += 10;
-		   }
-		   else
-		   {
-		      $_SESSION['counter'] = 10;
-		   }
-
-
+		if ($myDatabaseFunctions->verifiedUserName ($username, $password)){
 			$_SESSION['username'] = "" . $username;
-
+			header ( "Location: index.php" );
+		} else {
+			$_SESSION['loginError'] = "Invalid User/Password";
+			header ( "Location: login-register.php");
+		}
 	}
-	elseif(strcmp($action,"increment")==0){
-//		$model->incQuoteRating($ID);
+	elseif(strcmp($action,"register")==0){
+		$myDatabaseFunctions->registerUserName($username, $password, $first_name, $last_name, $publication);
+		header ( "Location: index.php" );
 	}
 	elseif(strcmp($action,"decrement")==0){
 //		$model->decQuoteRating($ID);
@@ -33,5 +36,5 @@
 //		$model->flagQuote($ID);
 	}
 
-	header ( "Location: index.php" );
+	
 ?>
