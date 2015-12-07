@@ -81,7 +81,7 @@ function getTheRest($film){
 		$result = $result . "<dd>" . $record[7] . "</dd>";
 
 	$result = $result . "<dt>Box Office</dt>";
-		$result = $result . "<dd>$ " . $record[8] . "</dd>";
+		$result = $result . "<dd>$ " . number_format($record[8]) . "</dd>";
 	
 	return $result;
 }

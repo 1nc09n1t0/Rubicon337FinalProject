@@ -37,7 +37,7 @@ session_start();
 
 <div class="banner">
 		<img class="banner-centered" src="images/rancidbanner.png"
-			alt="Rancid Tomatoes">
+			alt="Rancid Tomatoes banner here">
 </div>
 
 <h1>Index</h1>

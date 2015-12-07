@@ -237,18 +237,21 @@
 	// // This code below is for testing purposes only. It must be removed before becoming part of a web site.
 	// // At first, every assert will generate a red warning.  
 	$myDatabaseFunctions = new DatabaseAdaptor ();
+
+	// // Remove any accounts that may have been added by calling this method (or do it from MariaDB [quotes]>
+	// $myDatabaseFunctions->removeAllDuckTypedAccounts ();
 	
 	// // Test register and verifyPassword
-	// assert ( ! $myDatabaseFunctions->verifiedUserName ( "duckTyped1", "abcdef" ) );
+	 // assert ( ! $myDatabaseFunctions->verifiedUserName ( "duckTyped1", "abcdef" ) );
 	// assert ( ! $myDatabaseFunctions->verifiedUserName ( "duckTyped2", "123456" ) );
 	// assert ( ! $myDatabaseFunctions->verifiedUserName ( "duckTyped3", "sT6_quote_uT1" ) );
 	
 	// // precondition: The user name, the first argument here, is not in table users
-	// $myDatabaseFunctions->registerUserName ( "duckTyped1", "abcdef", "firsty1", "lasty1", "publicationy1");
+	 // $myDatabaseFunctions->registerUserName ( "duckTyped1", "abcdef", "firsty1", "lasty1", "publicationy1");
 	// $myDatabaseFunctions->registerUserName ( "duckTyped2", "123456", "firsty2", "lasty2", "publicationy2" );
 	// $myDatabaseFunctions->registerUserName ( "duckTyped3", "sT6_quote_uT1", "firsty3", "lasty3", "publicationy3" );
 	
-	// assert ( $myDatabaseFunctions->verifiedUserName ( "duckTyped1", "abcdef" ) );
+	 // assert ( $myDatabaseFunctions->verifiedUserName ( "duckTyped1", "abcdef" ) );
 	// assert ( $myDatabaseFunctions->verifiedUserName ( "duckTyped2", "123456" ) );
 	// assert ( $myDatabaseFunctions->verifiedUserName ( "duckTyped3", "sT6_quote_uT1" ) );
 
@@ -261,13 +264,18 @@
 	// assert ( strcmp($myDatabaseFunctions->getPublication ("duckTyped1"), "publicationy1")===0 );
 	// assert ( strcmp($myDatabaseFunctions->getPublication ("duckTyped2"), "publicationy2")===0 );
 	// assert ( strcmp($myDatabaseFunctions->getPublication ("duckTyped3"), "publicationy3")===0 );
-	
+
+	// Tests getAuthor
+	// assert ( strcmp($myDatabaseFunctions->getAuthor ("duckTyped1"), "firsty1 lasty1")===0 );
+
 	// // Remove any accounts that may have been added by calling this method (or do it from MariaDB [quotes]>
 	// $myDatabaseFunctions->removeAllDuckTypedAccounts ();
 
 	// // Tests for escaped entries. Handled by PDO prepare, apparently.
 	// $myDatabaseFunctions->createReview("duckTyped Movie With Quotes in Review", "Isn't it the case that I'm writing a movie's review using quotes?","FRESH" , "myUserName");
 	// $myDatabaseFunctions->removeAllDuckTypedReviews();
+
+
 
 
 	///////////////
