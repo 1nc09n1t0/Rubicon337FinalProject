@@ -49,6 +49,11 @@ function getRatingStuff($film){
 	Gets the poster for the movie
 */
 function getOverviewImage($film){
+
+	if(strcmp($film,"The Princess Bride")==0){
+
+	}
+
 	return '<img src="movie_files/'.$film.'/overview.png" alt="general overview" />';
 }
 
@@ -59,23 +64,25 @@ function getOverviewImage($film){
 	THEN I found out what semicolons do. 
 */
 function getTheRest($film){
-	$result = '';
-	$file = file_get_contents('movie_files/'.$film.'/overview.txt');
-	$array = explode(PHP_EOL,$file);
+
+	$myDatabaseAdaptor = new DatabaseAdaptor();
+	$record = $myDatabaseAdaptor->getMovieRecord($film);
+
+	$result = "";
+	$result = $result . "<dt>Title</dt>";
+		$result = $result . "<dd>" . $record[2] . "</dd>";
+	$result = $result . "<dt>Director</dt>";
+		$result = $result . "<dd>" . $record[4] . "</dd>";
+	$result = $result . "<dt>Year</dt>";
+		$result = $result . "<dd>" . $record[5] . "</dd>";
+	$result = $result . "<dt>Rating</dt>";
+		$result = $result . "<dd>" . $record[6] . "</dd>";
+	$result = $result . "<dt>Runtime</dt>";
+		$result = $result . "<dd>" . $record[7] . "</dd>";
+
+	$result = $result . "<dt>Box Office</dt>";
+		$result = $result . "<dd>$ " . $record[8] . "</dd>";
 	
-	for($i=0;$i<count($array);$i++){
-		$combo = explode(':',$array[$i]);
-
-		$result = $result . '<dt>'.$combo[0].'</dt><dd>';
-
-		$starArray = explode(';',$combo[1]);
-
-		foreach($starArray as $star){
-			$result = $result . $star . '<br>';
-		}
-	
-		$result = $result . '</dd>';
-	}
 	return $result;
 }
 
@@ -123,7 +130,6 @@ function getReviews($film){
 
 		$string_version = implode('#', $row);
 		$array = explode('#', $string_version);
-		//$result = $result . $array[2]. "<br>";
 
 	
 		$review = $array[2];
