@@ -1,53 +1,47 @@
 <?php 
  /*
-    Programmer: Kris Cabulong
-	CSC 337 Assignment 5
-	A bit of a rush job, was fun though, felt like a hackathon. 
-	50 minutes to spare!
+    Programmer: Kris Cabulong $ Adrianna Ortiz-Flores
+	CSC 337: Final Project	
 
  */
 
+	include 'DatabaseAdaptor.php';
+	//grants access to $moviesArray = $myDatabaseFunctions->getAllMoviesAsArray();
+	session_start();
 
  /*
     Generates an h1 header
  */
-function getHeader($film){
-	$file = file_get_contents('movie_files/'.$film.'/info.txt');
-	$array = explode(PHP_EOL,$file);
-	$header = '<h1>' . $array[0] . ' (' . $array[1] . ')</h1>';
+function getHeader($movie){
+//	$file = file_get_contents('movie_files/'.$film.'/info.txt');
+//	$array = explode(PHP_EOL,$file);
+	$myDatabaseAdaptor = new DatabaseAdaptor();
+	$title = $movie;
+	$year =  "" . $myDatabaseAdaptor->getMovieYear($title);
+
+	$header = '<h1>' . $movie . ' (' . $year . ')</h1>';
+
 
 	return $header;
 }
 
- /*
-    Pulls out a rating from the file
- */
-function getRating($film){
-	$file = file_get_contents('movie_files/'.$film.'/info.txt');
-	$array = explode(PHP_EOL,$file);
-	return $array[2];
-}
 
-/*
-	Chooses the appropriate image based on the rating. 
-*/
-function getRatingImage($film){
-	$file = file_get_contents('movie_files/'.$film.'/info.txt');
-	$array = explode(PHP_EOL,$file);
-	$rating = $array[2];
-
-	if ($rating<60){
-		return '<img class="bottom" src="movie_files/images/rottenlarge.png" alt="Rotten" />';
-	} else{
-		return '<img class="bottom" src="movie_files/images/freshlarge.png" alt="Fresh" />';
-	}
-}
 
 /*
 	Let's consolidate the rating stuff!
 */
 function getRatingStuff($film){
-	return getRatingImage($film).getRating($film).'%';
+	$myDatabaseAdaptor = new DatabaseAdaptor();
+	$freshness = $myDatabaseAdaptor->getMovieFreshness($film);
+	$image = "";
+
+	if ($freshness<60){
+		$image = '<img class="bottom" src="movie_files/images/rottenlarge.png" alt="Rotten" />';
+	} else{
+		$image = '<img class="bottom" src="movie_files/images/freshlarge.png" alt="Fresh" />';
+	}
+	//return getRatingImage($film).rating.'%';
+	return $image.$freshness.'%';
 }
 
 
@@ -111,20 +105,28 @@ function getOverviewContent($film){
 	where I generate each review.
 */
 function getReviews($film){
-	$files = glob('movie_files/'.$film.'/review*.txt');
+	$myDatabaseAdaptor = new DatabaseAdaptor();
+	$reviewsArray = $myDatabaseAdaptor->getAllReviewsAsArrayByMovie($film);
+	
+
+//	$files = glob('movie_files/'.$film.'/review*.txt');
 	$i = 0;
 	$half = 1000;	/* arbitrarily high */
 
-	if(count($files>=2)){			/*catches where there is only one review*/
-		$half = count($files)/2;	/*well, the opposite, but you get what I'm doing.*/
+	if(sizeof($reviewsArray)>=2){			/*catches where there is only one review*/
+		$half = sizeof($reviewsArray)/2;	/*well, the opposite, but you get what I'm doing.*/
 	}
 
 	$result = '<div class="col-reviews">';
 
-	foreach ($files as $file){
+	foreach ($reviewsArray as $row){
+
+		$string_version = implode('#', $row);
+		$array = explode('#', $string_version);
+		//$result = $result . $array[2]. "<br>";
+
 	
-		$review = file_get_contents($file);
-		$array = explode(PHP_EOL, $review);
+		$review = $array[2];
 		
 		/*If at the halfway point, start the second column*/
 		if ($i>=$half){
@@ -132,21 +134,21 @@ function getReviews($film){
 		}
 
 		$result = $result . '<p class="quote">';
-			if (strcmp($array[1],"ROTTEN")==0){
+			if (strcmp($array[3],"ROTTEN")==0){
 				$result = $result . '<img class="bottom" src="movie_files/images/rotten.gif" alt="Rotten" />';
 			} else{
 				$result = $result . '<img class="bottom" src="movie_files/images/fresh.gif" alt="Fresh" />';
 			}
-		$result = $result . '<q>'. $array[0].'</q>';
+		$result = $result . '<q>'. $review .'</q>';
 		$result = $result . '</p>';
 		
 		$result = $result . '<p> <img class="icon bottom" src="images/critic.gif" alt="Critic" />'.
-					$array[2].
+					$array[4].
 					'<br/><i>'.
-					$array[3].
+					$array[5].
 					'</i></p>';
 
-		$i++;
+		 $i++;
 	}
 
 	$result = $result . '</div>';

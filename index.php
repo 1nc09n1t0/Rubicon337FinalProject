@@ -23,11 +23,10 @@ session_start();
 <body>
 
 <h1>Index</h1>
-<a href="title.html">Title</a><br>
-<a href="review.html">Review Page</a><br>
+<a href="review.php">Review Page</a><br>
 <a href="login-register.php">Login/Register Reviewer</a><br>
-<a href="new-review.html">Make/Update Review</a><br>
-<a href="new-movie.html">Make/Update Movie</a><br>
+<a href="new-review.php">Make/Update Review</a><br>
+<a href="new-movie.php">Make/Update Movie</a><br>
 <a href="clear-session.php">Clear session data</a><br>
 <form action = "login-controller.php?">
 	<input type = "hidden" name = "action" value = "logout">
@@ -58,7 +57,7 @@ session_start();
         		if (titlesArray.indexOf(review2get)==-1){
         			alert("This movie as typed does not yet exist in our database.");
         		} else {
-        			alert("Movie found: " + review2get);
+        			window.location = "review.php?movie=" + review2get;
         		}
         	}
 

@@ -1,3 +1,8 @@
+<?php
+	require_once("./functions.php");
+	$movie =  $_GET['movie'];
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,12 +12,52 @@
 </head>
 
 <body>
-<h1>Movie Review stuff here</h1>
-<h2>Here is where we should see that ol' familiar Rancid Tomatoes page</h2>
 
-<form action = "login-register.html">
-	<button type = "submit">Login/Register</button>
-</form>
+<?php
+	if( !isset( $_SESSION['username'] ) )
+   	{
+		$_SESSION['username'] = "Not logged in";
+	}
+
+	$username = "username: " . $_SESSION['username'];
+	echo $username;
+	echo $movie;
+	if( isset( $_SESSION['message'] ) )
+    {
+        echo "<script type=\"text/javascript\">alert(\"" . $_SESSION['message'] . "\");</script>";
+        unset( $_SESSION['message']);
+    }
+?>
+
+<div class="banner">
+		<img class="banner-centered" src="images/rancidbanner.png"
+			alt="Rancid Tomatoes">
+	</div>
+	
+	<?=getHeader($movie)?>
+
+	<!-- The big box -->
+	<div class="big-container">
+
+		<div class="left-section">
+			<!-- RATING STUFF -->
+			<div class="rating-box">
+				<?=getRatingStuff($movie)?>
+			</div>
+			<!-- REVIEWS -->
+			<div class="reviews-box">
+				<?=getReviews($movie)?>
+			</div>	
+		</div>
+			<?=getOverviewContent($movie)?>
+		</div>
+
+		<div class="footer">
+			<p>ADVERTISEMENT GOES HERE</p>
+		</div>
+		<!-- Big box end -->
+	</div>
+
 <br>
 
 

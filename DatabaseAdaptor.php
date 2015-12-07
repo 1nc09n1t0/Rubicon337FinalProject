@@ -154,6 +154,9 @@
 			2) createMovie(title, freshness, director, year, rating, runtime, box_office): Creates a new movie in movies table
 			3) updateMovie(title, freshness, director, year, rating, runtime, box_office): Updates a movie row in the movies table. Id is unnecessary since titles should be unique
 			4) deleteMovie(id): Deletes a movie
+			5) getMovieRecord($title): Retrieves a movie record given a movie title.
+			6) getMovieYear($title): Returns the year of release for a given movie title.
+			7) getMovieRating($title): Returns the year of release for a given movie title.
 		*/
 
 		// 1) getAllMoviesAsArray(): Returns an array of all the movies in the database.
@@ -195,6 +198,36 @@
 			$stmt = $this->DB->prepare ( "DELETE FROM movies WHERE id=:id" );
 			$stmt->bindParam ( 'id', $id );
 			$stmt->execute ();
+		}
+
+		// 5) getMovieRecord($title): Retrieves a movie record given a movie title.
+		public function getMovieRecord($title){
+			$stmt = $this->DB->prepare ( "SELECT * FROM movies WHERE title= :title" );
+			$stmt->bindParam ( 'title', $title );
+			$stmt->execute ();
+			$currentRecord = $stmt->fetch ();
+			return $currentRecord;
+		}
+
+		// 6) getMovieYear($title): Returns the year of release for a given movie title.
+		public function getMovieYear($title){
+			$currentRecord = $this -> getMovieRecord($title);
+			$year = $currentRecord ['year'];
+			return $year;
+		}
+
+		// 7) getMovieRating($title): Returns the year of release for a given movie title.
+		public function getMovieRating($title){
+			$currentRecord = $this -> getMovieRecord($title);
+			$rating = $currentRecord ['rating'];
+			return $rating;
+		}
+
+		// 8) getMovieFreshness($title): Returns the year of release for a given movie title.
+		public function getMovieFreshness($title){
+			$currentRecord = $this -> getMovieRecord($title);
+			$rating = $currentRecord ['freshness'];
+			return $rating;
 		}
 		
 	} // end class DatabaseAdaptor
