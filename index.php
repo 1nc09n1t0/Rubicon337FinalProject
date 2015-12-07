@@ -1,6 +1,22 @@
 <?php
 // Start the session
 session_start();
+
+   if( isset( $_SESSION['counter'] ) )
+   {
+      $_SESSION['counter'] += 1;
+   }
+   else
+   {
+      $_SESSION['counter'] = 1;
+   }
+
+   	if( !isset( $_SESSION['username'] ) )
+   	{
+		$_SESSION['username'] = "undefined";
+	}
+   $msg = "You have visited this page ".  $_SESSION['counter'];
+   $msg .= " in this session.<br>";
 ?>
 
 <!DOCTYPE html>
@@ -15,17 +31,20 @@ session_start();
 
 	<?php
 	// Set session variables
-	$_SESSION["favcolor"] = "green";
-	$_SESSION["favanimal"] = "cat";
-	echo "Session variables are set.";
+	$_SESSION['favanimal'] = "cat";
+	echo "Session variables are set.<br>";
+	echo $msg;
+	$username = "username: " . $_SESSION['username'];
+	echo $username;
 	?>
-	
+
 <h1>Index</h1>
 <a href="title.html">Title</a><br>
 <a href="review.html">Review Page</a><br>
-<a href="login-register.html">Login/Register Reviewer</a><br>
+<a href="login-register.php">Login/Register Reviewer</a><br>
 <a href="new-review.html">Make/Update Review</a><br>
 <a href="new-movie.html">Make/Update Movie</a><br>
+<a href="clear-session.php">Clear session data</a><br>
 
 	<div class="search">
 			Search <input type="text" id="text-search" oninput="getTitles()" onkeypress="getReview(event)">
@@ -34,12 +53,16 @@ session_start();
 	<p>Suggested titles: </p>
 	<br>
 	<div id="movie-titles" class="title-box"></div>
+	<div id="test-data" class="title-box"></div>
 
 	<script>
 
 		var titlesArray = [];
 
 	    function getReview(e){
+
+	    	document.getElementById("test-data").innerHTML= "<?php echo ($_SESSION["username"]) ?>";
+	    	document.getElementById("movie-titles").innerHTML = "(No movie titles match this search)";
         	if(e.keyCode === 13){
         		var review2get = document.getElementById("text-search").value;
         		var titlesArrayAsString = titlesArray.toString();
@@ -48,7 +71,7 @@ session_start();
         		if (titlesArray.indexOf(review2get)==-1){
         			alert("This movie as typed does not yet exist in our database.");
         		} else {
-        			//TODO:
+        			alert("Movie found: " + review2get);
         		}
         	}
 
