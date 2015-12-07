@@ -18,7 +18,8 @@
 	if(strcmp($action,"login")==0){
 
 		if ($myDatabaseFunctions->verifiedUserName ($username, $password)){
-			$_SESSION['username'] = "" . $username;
+			$_SESSION['username'] = $username;
+			$_SESSION['message'] = "Logged in as " . $username;
 			header ( "Location: index.php" );
 		} else {
 			$_SESSION['loginError'] = "Invalid User/Password";
@@ -30,11 +31,14 @@
 		//TODO: Create message pop up to notify user which name they're logged in as.
 
 		$myDatabaseFunctions->registerUserName($username, $password, $first_name, $last_name, $publication);
-		$_SESSION['username'] = "" . $username;
+		$_SESSION['username'] = $username;
+		$_SESSION['message'] = "Logged in as " . $username;
 		header ( "Location: index.php" );
 	}
-	elseif(strcmp($action,"decrement")==0){
-//		$model->decQuoteRating($ID);
+	elseif(strcmp($action,"logout")==0){
+		$_SESSION['message'] = "Logged out";
+		unset( $_SESSION['username']);
+		header ( "Location: index.php" );
 	}
 	elseif(strcmp($action,"flag")==0){
 //		$model->flagQuote($ID);

@@ -2,6 +2,14 @@
 // Start the session
 session_start();
 
+   	if( !isset( $_SESSION['username'] ) )
+   	{
+		$_SESSION['username'] = "Not logged in";
+	}
+
+	$username = "username: " . $_SESSION['username'];
+	echo $username;
+
 ?>
 
 <!DOCTYPE html>
@@ -14,12 +22,6 @@ session_start();
 
 <body>
 
-	<?php
-	// Set session variables
-	$username = "username: " . $_SESSION['username'];
-	echo $username;
-	?>
-
 <h1>Index</h1>
 <a href="title.html">Title</a><br>
 <a href="review.html">Review Page</a><br>
@@ -27,6 +29,11 @@ session_start();
 <a href="new-review.html">Make/Update Review</a><br>
 <a href="new-movie.html">Make/Update Movie</a><br>
 <a href="clear-session.php">Clear session data</a><br>
+<form action = "login-controller.php?">
+	<input type = "hidden" name = "action" value = "logout">
+
+	<input type = "submit" value = "LOG OUT">
+</form>
 
 	<div class="search">
 			Search <input type="text" id="text-search" oninput="getTitles()" onkeypress="getReview(event)">
@@ -102,6 +109,17 @@ session_start();
 		 }
 	</script>
 
+	<?php
+
+
+	if( isset( $_SESSION['message'] ) )
+    {
+        echo "<script type=\"text/javascript\">alert(\"" . $_SESSION['message'] . "\");</script>";
+        unset( $_SESSION['message']);
+    }
+
+
+	?>
 
 </body>
 
