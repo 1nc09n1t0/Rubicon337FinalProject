@@ -2,21 +2,6 @@
 // Start the session
 session_start();
 
-   if( isset( $_SESSION['counter'] ) )
-   {
-      $_SESSION['counter'] += 1;
-   }
-   else
-   {
-      $_SESSION['counter'] = 1;
-   }
-
-   	if( !isset( $_SESSION['username'] ) )
-   	{
-		$_SESSION['username'] = "undefined";
-	}
-   $msg = "You have visited this page ".  $_SESSION['counter'];
-   $msg .= " in this session.<br>";
 ?>
 
 <!DOCTYPE html>
@@ -31,9 +16,6 @@ session_start();
 
 	<?php
 	// Set session variables
-	$_SESSION['favanimal'] = "cat";
-	echo "Session variables are set.<br>";
-	echo $msg;
 	$username = "username: " . $_SESSION['username'];
 	echo $username;
 	?>
@@ -53,7 +35,6 @@ session_start();
 	<p>Suggested titles: </p>
 	<br>
 	<div id="movie-titles" class="title-box"></div>
-	<div id="test-data" class="title-box"></div>
 
 	<script>
 
@@ -61,7 +42,6 @@ session_start();
 
 	    function getReview(e){
 
-	    	document.getElementById("test-data").innerHTML= "<?php echo ($_SESSION["username"]) ?>";
 	    	document.getElementById("movie-titles").innerHTML = "(No movie titles match this search)";
         	if(e.keyCode === 13){
         		var review2get = document.getElementById("text-search").value;
@@ -117,7 +97,7 @@ session_start();
 			 }
 		 }
 		// Can use POST or GET
-		xhttp.open("GET", "movieSearchController.php?titleString=" + titleString, true);
+		xhttp.open("GET", "getMovieTitles.php?titleString=" + titleString, true);
 		xhttp.send();
 		 }
 	</script>

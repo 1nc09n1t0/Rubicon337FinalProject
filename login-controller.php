@@ -26,7 +26,11 @@
 		}
 	}
 	elseif(strcmp($action,"register")==0){
+		//TODO: Check for pre-existing username (Might just make a new db adaptor function)
+		//TODO: Create message pop up to notify user which name they're logged in as.
+
 		$myDatabaseFunctions->registerUserName($username, $password, $first_name, $last_name, $publication);
+		$_SESSION['username'] = "" . $username;
 		header ( "Location: index.php" );
 	}
 	elseif(strcmp($action,"decrement")==0){
