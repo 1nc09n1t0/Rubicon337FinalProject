@@ -7,6 +7,12 @@
 </head>
 
 <body>
+
+<div class="banner">
+		<img class="banner-centered" src="images/rancidbanner.png"
+			alt="Rancid Tomatoes">
+</div>
+
 <h1>Add Movie</h1>
 
 <br>
