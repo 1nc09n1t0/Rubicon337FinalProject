@@ -32,30 +32,41 @@ session_start();
     	<img src="images/rancidbanner.png" alt="Rancid Tomatoes">
 	</header>
 
-	<h1>Index</h1>
-	<a href="login-register.php">Login/Register Reviewer</a><br>
-	<a href="new-review.php">Make/Update Review</a><br>
-	<a href="new-movie.php">Make/Update Movie</a><br>
-	<form action = "login-controller.php?">
-		<input type = "hidden" name = "action" value = "logout">
 
-		<input type = "submit" value = "LOG OUT">
-	</form>
+	<div class = "container">
+		<h1>Index</h1>
+
+		<div class = "buttons">
+			<form action = "login-register.php">
+				<input type = "submit" value = "LOG IN">
+			</form>
+
+			<br>
+
+			<form action = "login-controller.php?">
+				<input type = "hidden" name = "action" value = "logout">
+
+				<input type = "submit" value = "LOG OUT">
+			</form>
+		</div>
 
 
-	<div class="search">
-			Search <input type="text" id="text-search" oninput="getTitles()" onkeypress="getReview(event)">
-	</div>
-	<br><br>
-	<p>Suggested titles: </p>
-	<br>
-	<div id="movie-titles" class="title-box"></div>
+		<div class="search">
+		Search <input type="text" id="text-search" oninput="getTitles()" onkeypress="getReview(event)">
+		</div>
 
-	<script>
+		<br><br><br>
 
-		var titlesArray = [];
 
-	    function getReview(e){
+		<h3>Suggested titles: </h3>
+		<div id="movie-titles" class="title-box"></div>
+
+
+		<script>
+
+			var titlesArray = [];
+
+	    	function getReview(e){
 
 	    	document.getElementById("movie-titles").innerHTML = "(No movie titles match this search)";
         	if(e.keyCode === 13){
@@ -71,9 +82,9 @@ session_start();
         	}
 
         	return false;
-    	}
+    		}
 
-		function getTitles(){
+			function getTitles(){
 			 var titleString = document.getElementById("text-search").value;
 			 var xhttp = new XMLHttpRequest();
 
@@ -110,12 +121,14 @@ session_start();
 						document.getElementById("movie-titles").innerHTML = first10;
 					}
 			 }
-		 }
-		// Can use POST or GET
-		xhttp.open("GET", "getMovieTitles.php?titleString=" + titleString, true);
-		xhttp.send();
-		 }
-	</script>
+			 }
+			// Can use POST or GET
+			xhttp.open("GET", "getMovieTitles.php?titleString=" + titleString, true);
+			xhttp.send();
+		 	}
+		</script>
+
+	</div>
 
 	<?php
 

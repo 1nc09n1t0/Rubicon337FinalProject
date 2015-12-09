@@ -165,7 +165,8 @@ img.icon.bottom{
 	margin: 10px;
 }
 
-/* For login-register */
+
+
 .container {
 	padding-top: 40px;
 	margin: 0 auto;
@@ -179,6 +180,17 @@ h2 {
     text-align: center;
 }
 
+h3 {
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 12pt;
+    text-align: left;
+}
+
+.buttons {
+	text-align: center;
+}
+
+/* For login-register */
 .login-register {
 	width: 100%;
 	border: darkgray 2px solid;
@@ -202,5 +214,10 @@ h2 {
 	float: left;
 	background-color: #A2B964;
 	padding-bottom: 14px;
+	text-align: center;
+}
+
+.cancel {
+	padding-top: 20px;
 	text-align: center;
 }
