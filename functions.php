@@ -50,10 +50,6 @@ function getRatingStuff($film){
 */
 function getOverviewImage($film){
 
-	if(strcmp($film,"The Princess Bride")==0){
-
-	}
-
 	return '<img src="movie_files/'.$film.'/overview.png" alt="general overview" />';
 }
 
@@ -111,11 +107,14 @@ function getOverviewContent($film){
 	Was feeling a lot more confident with php by then, here is
 	where I generate each review.
 */
-function getReviews($film){
+function getReviews($film, $username){
 	$myDatabaseAdaptor = new DatabaseAdaptor();
 	$reviewsArray = $myDatabaseAdaptor->getAllReviewsAsArrayByMovie($film);
-	
 
+	$getAuthor = $myDatabaseAdaptor->getAuthor($username);
+	$getPublication = $myDatabaseAdaptor->getPublication($username);
+	$hasReviewAlready = false;
+	
 //	$files = glob('movie_files/'.$film.'/review*.txt');
 	$i = 0;
 	$half = 1000;	/* arbitrarily high */
@@ -154,7 +153,37 @@ function getReviews($film){
 					$array[5].
 					'</i></p>';
 
+		if ($getAuthor===$array[4] && $getPublication===$array[5]){
+			$hasReviewAlready = true;
+			$result = $result . '<form action = "login-controller.php?">';
+			$result = $result . '<input type = "hidden" name = "action" value = "updateReview">';
+			$result = $result . '<input type = "hidden" name = "reviewId" value = "'.$array[0].'">';
+			$result = $result . '<input type = "hidden" name = "movie" value = "'.$array[1].'">';
+			$result = $result . '<input type = "hidden" name = "review" value = "'.$array[2].'">';
+			$result = $result . '<input type = "hidden" name = "author" value = "'.$array[4].'">';
+			$result = $result . '<input type = "hidden" name = "publication" value = "'.$array[5].'">';
+			$result = $result . '<input type = "hidden" name = "isFresh" value = "'.$array[3].'">';
+			$result = $result . '<input type = "submit" value = "EDIT">';
+			$result = $result . '</form>';
+
+			$result = $result . '<form action = "login-controller.php?">';
+			$result = $result . '<input type = "hidden" name = "action" value = "deleteReview">';
+			$result = $result . '<input type = "hidden" name = "reviewId" value = "'.$array[0].'">';
+			$result = $result . '<input type = "hidden" name = "movie" value = "'.$array[1].'">';
+			$result = $result . '<input type = "submit" value = "DELETE">';
+			$result = $result . '</form>';
+		}
 		 $i++;
+	}
+
+	if (!$hasReviewAlready && strcmp("(Not logged in)", $username)!=0 ){
+		$result = $result . '<form action = "login-controller.php?">';
+		$result = $result . '<input type = "hidden" name = "action" value = "createReview">';
+			$result = $result . '<input type = "hidden" name = "movie" value = "'.$film.'">';
+			$result = $result . '<input type = "hidden" name = "author" value = "'.$getAuthor.'">';
+			$result = $result . '<input type = "hidden" name = "publication" value = "'.$getPublication.'">';
+		$result = $result . '<input type = "submit" value = "NEW REVIEW">';
+		$result = $result . '</form>';
 	}
 
 	$result = $result . '</div>';

@@ -19,7 +19,7 @@
 		$_SESSION['username'] = "Not logged in";
 	}
 
-	$username = "username: " . $_SESSION['username'];
+	$username = $_SESSION['username'];
 	echo $username;
 	echo $movie;
 	if( isset( $_SESSION['message'] ) )
@@ -27,6 +27,7 @@
         echo "<script type=\"text/javascript\">alert(\"" . $_SESSION['message'] . "\");</script>";
         unset( $_SESSION['message']);
     }
+    $_SESSION['movie'] = $movie;
 ?>
 
 <div class="banner">
@@ -46,14 +47,14 @@
 			</div>
 			<!-- REVIEWS -->
 			<div class="reviews-box">
-				<?=getReviews($movie)?>
+				<?=getReviews($movie, $username)?>
 			</div>	
 		</div>
 			<?=getOverviewContent($movie)?>
 		</div>
 
 		<div class="footer">
-			<p>ADVERTISEMENT GOES HERE</p>
+			<p><a href="index.php">Return to Home Page</a></p>
 		</div>
 		<!-- Big box end -->
 	</div>

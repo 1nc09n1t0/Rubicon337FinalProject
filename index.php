@@ -6,23 +6,14 @@ session_start();
 
    	if( !isset( $_SESSION['username'] ) )
    	{
-		$_SESSION['username'] = "Not logged in";
-		$username = "username: " . $_SESSION['username'];
-		echo $username;
+		$_SESSION['username'] = "(Not logged in)";
+		$username = $_SESSION['username'];
+	
 
 	}else{
-
-		$myDBAdaptor = new DatabaseAdaptor();
-		$username = "username: " . $_SESSION['username'];
-		echo $username;
-		$author = $myDBAdaptor->getAuthor($username);
-		echo "<br>author: '" . $author . "'";
+		$username = "Logged in user: " . $_SESSION['username'];
+		
 	}
-
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -40,13 +31,14 @@ session_start();
 			alt="Rancid Tomatoes banner here">
 </div>
 
+	<?php echo $username; ?>
+
 <h1>Index</h1>
 <a href="login-register.php">Login/Register Reviewer</a><br>
 <a href="new-review.php">Make/Update Review</a><br>
 <a href="new-movie.php">Make/Update Movie</a><br>
 <form action = "login-controller.php?">
 	<input type = "hidden" name = "action" value = "logout">
-
 	<input type = "submit" value = "LOG OUT">
 </form>
 

@@ -30,7 +30,7 @@
 	</h4>
 
 	<h4>Password 
-	<input type = "text" name = "password" required>
+	<input type = "password" name = "password" required>
 	</h4>
 
 	<input type = "hidden" name = "action" value = "login">
@@ -54,7 +54,7 @@
 	</h4>
 
 	<h4>Password 
-	<input type = "text" name = "password" required>
+	<input type = "password" name = "password" required>
 	</h4>
 
 	<h4>First Name 

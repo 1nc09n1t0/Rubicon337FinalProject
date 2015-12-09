@@ -88,6 +88,15 @@
 			$stmt = $this->DB->prepare ( "DELETE FROM accounts WHERE user_name LIKE '%duckTyped%'" );
 			$stmt->execute ();
 		}
+
+		// 7) getAccountRecord($user_name): Retrieves an account record given a user_name.
+		public function getAccountRecord($user_name){
+			$stmt = $this->DB->prepare ( "SELECT * FROM accounts WHERE user_name= :user_name" );
+			$stmt->bindParam ( 'user_name', $user_name );
+			$stmt->execute ();
+			$currentRecord = $stmt->fetch ();
+			return $currentRecord;
+		}
 		
 
 		/*
@@ -118,12 +127,13 @@
 		}
 
 		// 3) createReview(movie_title,review, author: Insert a new movie review
-		public function createReview($movie_title, $review, $is_fresh, $author) {
-			$stmt = $this->DB->prepare ( "INSERT INTO reviews (movie_title, review, is_fresh, author) values (:movie_title, :review, :is_fresh, :author)" );
+		public function createReview($movie_title, $review, $is_fresh, $author, $publication) {
+			$stmt = $this->DB->prepare ( "INSERT INTO reviews (movie_title, review, is_fresh, author, publication) values (:movie_title, :review, :is_fresh, :author, :publication)" );
 			$stmt->bindParam ( 'movie_title', $movie_title );
 			$stmt->bindParam ( 'review', $review );
 			$stmt->bindParam ( 'is_fresh', $is_fresh);
 			$stmt->bindParam ( 'author', $author );
+			$stmt->bindParam ( 'publication', $publication);
 			$stmt->execute ();
 		}
 
@@ -135,10 +145,11 @@
 		}
 
 		// 5) updateReview(id, review):
-		public function updateReview($id, $review){
-			$stmt = $this->DB->prepare ( "UPDATE reviews SET review=:review WHERE id=:id" );
+		public function updateReview($id, $review, $is_fresh){
+			$stmt = $this->DB->prepare ( "UPDATE reviews SET review=:review,is_fresh=:is_fresh WHERE id=:id" );
 			$stmt->bindParam ( 'id', $id );
-			$stmd->bindParam ('review', $review);
+			$stmt->bindParam ('review', $review);
+			$stmt->bindParam ('is_fresh', $is_fresh);
 			$stmt->execute ();
 		}
 
