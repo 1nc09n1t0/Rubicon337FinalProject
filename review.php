@@ -50,7 +50,7 @@
 			</div>	
 		</div>
 			<?=getOverviewContent($movie)?>
-		</div>
+	</div>
 
 		<div class="footer">
 			<p>ADVERTISEMENT GOES HERE</p>
