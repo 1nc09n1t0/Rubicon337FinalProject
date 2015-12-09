@@ -6,7 +6,6 @@
  	$publication = $_SESSION['publication'];
  	$review = $_SESSION['review'];
  	$isFresh = $_SESSION['isFresh'];
- 	echo "publication: " . $publication;
 ?>
 <!DOCTYPE html>
 <html>

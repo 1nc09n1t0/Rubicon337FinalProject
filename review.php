@@ -20,8 +20,6 @@
 	}
 
 	$username = $_SESSION['username'];
-	echo $username;
-	echo $movie;
 	if( isset( $_SESSION['message'] ) )
     {
         echo "<script type=\"text/javascript\">alert(\"" . $_SESSION['message'] . "\");</script>";

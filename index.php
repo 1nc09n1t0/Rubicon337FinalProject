@@ -25,9 +25,6 @@ session_start();
 </head>
 
 <body>
-
-	<?php echo $username; ?>
-
 	<header>
     	<img src="images/rancidbanner.png" alt="Rancid Tomatoes">
 	</header>
