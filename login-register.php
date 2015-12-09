@@ -76,8 +76,12 @@
 					<input type = "submit" value = "REGISTER">
 				</form>
 			</section>
+		<div class = "cancel">
+			<a href = "index.php">Cancel</a>
 		</div>
 	</div>
+
+	
 
 			<?php
 				if( isset( $_SESSION['loginError'] ) )

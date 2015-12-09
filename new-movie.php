@@ -53,7 +53,7 @@
 </form>
 
 <br><br>
-<a href = "title.html">Cancel</a>
+<a href = "index.php">Cancel</a>
 
 </body>
 
