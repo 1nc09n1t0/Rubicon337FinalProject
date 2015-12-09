@@ -26,21 +26,22 @@ session_start();
 
 <body>
 
-<div class="banner">
-		<img class="banner-centered" src="images/rancidbanner.png"
-			alt="Rancid Tomatoes banner here">
-</div>
-
 	<?php echo $username; ?>
 
-<h1>Index</h1>
-<a href="login-register.php">Login/Register Reviewer</a><br>
-<a href="new-review.php">Make/Update Review</a><br>
-<a href="new-movie.php">Make/Update Movie</a><br>
-<form action = "login-controller.php?">
-	<input type = "hidden" name = "action" value = "logout">
-	<input type = "submit" value = "LOG OUT">
-</form>
+	<header>
+    	<img src="images/rancidbanner.png" alt="Rancid Tomatoes">
+	</header>
+
+	<h1>Index</h1>
+	<a href="login-register.php">Login/Register Reviewer</a><br>
+	<a href="new-review.php">Make/Update Review</a><br>
+	<a href="new-movie.php">Make/Update Movie</a><br>
+	<form action = "login-controller.php?">
+		<input type = "hidden" name = "action" value = "logout">
+
+		<input type = "submit" value = "LOG OUT">
+	</form>
+
 
 	<div class="search">
 			Search <input type="text" id="text-search" oninput="getTitles()" onkeypress="getReview(event)">

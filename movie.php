@@ -19,7 +19,6 @@ CSc 337 Final Project: Rancid Tomatoes Redux
 
 <body>
 
-
 	<div class="banner">
 		<img class="banner-centered" src="images/rancidbanner.png"
 			alt="Rancid Tomatoes">

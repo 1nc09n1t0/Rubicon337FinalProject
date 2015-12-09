@@ -51,7 +51,7 @@
 			</div>	
 		</div>
 			<?=getOverviewContent($movie)?>
-		</div>
+	</div>
 
 		<div class="footer">
 			<p><a href="index.php">Return to Home Page</a></p>
