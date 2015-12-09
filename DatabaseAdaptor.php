@@ -45,18 +45,18 @@
 		public function registerUserName($user_name, $password, $first_name, $last_name, $publication) {
 			$hashed_pwd = password_hash($password, PASSWORD_DEFAULT);
 			$stmt = $this->DB->prepare ( "INSERT INTO accounts (user_name, password, first_name, last_name, publication ) values (:user_name, :hashed_pwd, :first_name, :last_name, :publication)" );
-			$stmt->bindParam ( 'user_name', $user_name );
-			$stmt->bindParam ( 'hashed_pwd', $hashed_pwd );
-			$stmt->bindParam ( 'first_name', $first_name );
-			$stmt->bindParam ( 'last_name', $last_name );
-			$stmt->bindParam ( 'publication', $publication );
+			$stmt->bindParam ( 'user_name', htmlspecialchars($user_name) );
+			$stmt->bindParam ( 'hashed_pwd', htmlspecialchars($hashed_pwd) );
+			$stmt->bindParam ( 'first_name', htmlspecialchars($first_name) );
+			$stmt->bindParam ( 'last_name', htmlspecialchars($last_name) );
+			$stmt->bindParam ( 'publication', htmlspecialchars($publication) );
 			$stmt->execute ();
 		}
 
 		//3) verifiedUserName(): returns boolean, checks matching password
 		public function verifiedUserName($user_name, $password) {
 			$stmt = $this->DB->prepare ( "SELECT * FROM accounts WHERE user_name= :user_name" );
-			$stmt->bindParam ( 'user_name', $user_name );
+			$stmt->bindParam ( 'user_name', htmlspecialchars($user_name) );
 			$stmt->execute ();
 			$currentRecord = $stmt->fetch ();
 			$hashed_pwd = $currentRecord ['password'];
@@ -129,11 +129,11 @@
 		// 3) createReview(movie_title,review, author: Insert a new movie review
 		public function createReview($movie_title, $review, $is_fresh, $author, $publication) {
 			$stmt = $this->DB->prepare ( "INSERT INTO reviews (movie_title, review, is_fresh, author, publication) values (:movie_title, :review, :is_fresh, :author, :publication)" );
-			$stmt->bindParam ( 'movie_title', $movie_title );
-			$stmt->bindParam ( 'review', $review );
-			$stmt->bindParam ( 'is_fresh', $is_fresh);
-			$stmt->bindParam ( 'author', $author );
-			$stmt->bindParam ( 'publication', $publication);
+			$stmt->bindParam ( 'movie_title',  htmlspecialchars($movie_title) );
+			$stmt->bindParam ( 'review',  htmlspecialchars($review) );
+			$stmt->bindParam ( 'is_fresh',  htmlspecialchars($is_fresh) );
+			$stmt->bindParam ( 'author',  htmlspecialchars($author) );
+			$stmt->bindParam ( 'publication',  htmlspecialchars($publication) );
 			$stmt->execute ();
 		}
 
@@ -148,7 +148,7 @@
 		public function updateReview($id, $review, $is_fresh){
 			$stmt = $this->DB->prepare ( "UPDATE reviews SET review=:review,is_fresh=:is_fresh WHERE id=:id" );
 			$stmt->bindParam ( 'id', $id );
-			$stmt->bindParam ('review', $review);
+			$stmt->bindParam ('review',  htmlspecialchars($review) );
 			$stmt->bindParam ('is_fresh', $is_fresh);
 			$stmt->execute ();
 		}
@@ -180,27 +180,27 @@
 		// 2) createMovie(title, freshness, director, year, rating, runtime, box_office): Creates a new movie in movies table
 		public function createMovie($user_name, $title, $freshness, $director, $year, $rating, $runtime, $box_office) {
 			$stmt = $this->DB->prepare ( "INSERT INTO movies(user_name, title, freshness, director, year, rating, runtime, box_office) values  (:user_name, :title, :freshness, :director, :year, :rating, :runtime, :box_office)" );
-			$stmt->bindParam ( 'user_name', $user_name );
-			$stmt->bindParam ( 'title', $title );
-			$stmt->bindParam ( 'freshness', $freshness );
-			$stmt->bindParam ( 'director', $director );
-			$stmt->bindParam ( 'year', $year );
-			$stmt->bindParam ( 'rating', $rating );
-			$stmt->bindParam ( 'runtime', $runtime );
-			$stmt->bindParam ( 'box_office', $box_office );
+			$stmt->bindParam ( 'user_name',  htmlspecialchars($user_name) );
+			$stmt->bindParam ( 'title',  htmlspecialchars($title) );
+			$stmt->bindParam ( 'freshness',  htmlspecialchars($freshness) );
+			$stmt->bindParam ( 'director',  htmlspecialchars($director) );
+			$stmt->bindParam ( 'year',  htmlspecialchars($year) );
+			$stmt->bindParam ( 'rating',  htmlspecialchars($rating) );
+			$stmt->bindParam ( 'runtime',  htmlspecialchars($runtime) );
+			$stmt->bindParam ( 'box_office',  htmlspecialchars($box_office) );
 			$stmt->execute ();
 		}
 
 		// 3) updateMovie(title, freshness, director, year, rating, runtime, box_office): Updates a movie row in the movies table. Id is unnecessary since titles should be unique
 		public function updateMovie($title, $freshness, $director, $year, $rating, $runtime, $box_office) {
 			$stmt = $this->DB->prepare ( "UPDATE movies SET freshness=:freshness, director=:director, year=:year, rating=:rating, runtime=:runtime, box_office=:box_office WHERE title=:title" );
-			$stmt->bindParam ( 'title', $title );
-			$stmt->bindParam ( 'freshness', $freshness );
-			$stmt->bindParam ( 'director', $director );
-			$stmt->bindParam ( 'year', $year );
-			$stmt->bindParam ( 'rating', $rating );
-			$stmt->bindParam ( 'runtime', $runtime );
-			$stmt->bindParam ( 'box_office', $box_office );
+			$stmt->bindParam ( 'title',  htmlspecialchars($title) );
+			$stmt->bindParam ( 'freshness',  htmlspecialchars($freshness) );
+			$stmt->bindParam ( 'director',  htmlspecialchars($director) );
+			$stmt->bindParam ( 'year',  htmlspecialchars($year) );
+			$stmt->bindParam ( 'rating',  htmlspecialchars($rating) );
+			$stmt->bindParam ( 'runtime',  htmlspecialchars($runtime) );
+			$stmt->bindParam ( 'box_office',  htmlspecialchars($box_office) );
 			$stmt->execute ();
 		}
 
@@ -236,8 +236,26 @@
 
 		// 8) getMovieFreshness($title): Returns the year of release for a given movie title.
 		public function getMovieFreshness($title){
-			$currentRecord = $this -> getMovieRecord($title);
-			$rating = $currentRecord ['freshness'];
+
+			$stmtTotal = $this->DB->prepare ( "SELECT count(*) as cnt FROM reviews WHERE movie_title= :movie_title");
+			$stmtTotal->bindParam ( 'movie_title', $title );
+			$stmtTotal->execute();
+			$totalCount = $stmtTotal->fetchColumn();
+	
+
+			$fresh = "FRESH";
+			$stmtFresh = $this->DB->prepare ( "SELECT count(*) as cnt FROM reviews WHERE movie_title= :movie_title AND is_fresh=:is_fresh");
+			$stmtFresh->bindParam ( 'movie_title', $title );
+			$stmtFresh->bindParam ( 'is_fresh', $fresh );
+			$stmtFresh->execute();
+			$freshCount = $stmtFresh->fetchColumn();
+
+			$rating = round(($freshCount/$totalCount*100), 0, PHP_ROUND_HALF_UP);
+
+			//$currentRecord = $this -> getMovieRecord($title);
+			// $result = mysql_query("SELECT * FROM table1", $link);
+			// $num_rows = mysql_num_rows($result);
+			//$rating = $currentRecord ['freshness'];
 			return $rating;
 		}
 		
