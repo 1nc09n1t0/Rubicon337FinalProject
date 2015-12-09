@@ -18,46 +18,57 @@
 
 <body>
 
-<div class="banner">
-		<img class="banner-centered" src="images/rancidbanner.png"
-			alt="Rancid Tomatoes">
-</div>
+	<header>
+    	<img src="images/rancidbanner.png" alt="Rancid Tomatoes">
+	</header>
 
-<h1>Create Review</h1>
+	<div class = "newReview_container">
+		<h1>Create Review</h1>
 
-<br>
+		<br>
+		<div class = "review">
 
-<form id = "review-form" action = "login-controller.php">
-	<h4>Movie Title: 
-	<input type = "text" name = "movie_title"  value="<?=$movie?>" readonly>
-	</h4>
+		<div class = "review-form">
+		<form id = "review-form" action = "login-controller.php">
+			<h4>Movie Title: 
+				<input type = "text" name = "movie_title"  value="<?=$movie?>" readonly>
+			</h4>
 
-	<h4>Name: 
-	<input type = "text" name = "author"  value="<?=$author?>" readonly>
-	</h4>
+			<h4>Name: 
+				<input type = "text" name = "author"  value="<?=$author?>" readonly>
+			</h4>
 
-	<h4>Publication: 
-	<input type = "text" name = "user_publication"  value="<?=$publication?>" readonly>
-	</h4>
+			<h4>Publication: 
+				<input type = "text" name = "user_publication"  value="<?=$publication?>" readonly>
+			</h4>
 
-	<h4>Review 
-	<textarea name = "review_body" rows = "5" cols = "30" required><?=$review?></textarea></h4>
+			<h4>Review: 
+				<textarea name = "review_body" rows = "5" cols = "30" required><?=$review?></textarea></h4>
 
-	<h4>Rating 
-	<input id="rotten" type = "radio" name = "user_rating" value = "rotten" required> Rotten
-	<br>
-	<input id="fresh" type = "radio" name = "user_rating" value = "fresh" required> Fresh
-	</h4>
+			<h4>Rating: 
+				<div class = "rate">
+					<input id="rotten" type = "radio" name = "user_rating" value = "rotten" required> Rotten
+				</div>
+				<div class = "rate">
+					<input id="fresh" type = "radio" name = "user_rating" value = "fresh" required> Fresh
+				</div>
+			</h4>
 
-	<input type = "hidden" name ="reviewId" value = "<?=$reviewId?>">
 
-	<input type = "hidden" name ="action" value = "finishReview">
+			<input type = "hidden" name ="reviewId" value = "<?=$reviewId?>">
 
-	<input type = "submit" value = "Add Review">
-</form>
+			<input type = "hidden" name ="action" value = "finishReview">
 
-<br><br>
-<a href = "review.php?movie=<?=$movie?>" >Cancel</a>
+			<input type = "submit" value = "Add Review">
+		</form>
+		</div>
+
+		
+		<br>
+		</div>
+		<div class = "cancel">
+			<a href = "review.php?movie=<?=$movie?>" >Cancel</a>
+		</div>
 
 <script type="text/javascript">
 if (("ROTTEN").localeCompare("<?=$isFresh?>")==0){
@@ -70,6 +81,8 @@ if (("FRESH").localeCompare("<?=$isFresh?>")==0){
 
 
 </script>
+
+</div>
 
 </body>
 

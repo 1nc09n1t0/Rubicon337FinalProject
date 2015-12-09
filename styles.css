@@ -150,8 +150,11 @@ img.icon.bottom{
 }
 
 .search{
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 13pt;
+
 	float: left;
-	padding: 8px;
+	padding: 10px;
 	margin: 10px;
 }
 
@@ -174,6 +177,14 @@ img.icon.bottom{
 	min-width: 800px;
 }
 
+.newReview_container {
+	padding-top: 40px;
+	margin: 0 auto;
+	width: 600px;
+	min-width: 600px;
+	text-align: center;
+}
+
 h2 {
 	font-family: Georgia, "Times New Roman", serif;
 	font-size: 15pt;
@@ -186,8 +197,17 @@ h3 {
     text-align: left;
 }
 
-.buttons {
+h4 {
 	text-align: center;
+}
+
+.buttons {
+	padding-top: 20px;
+	text-align: center;
+}
+
+.rate {
+	float: right;
 }
 
 footer img {
@@ -196,6 +216,32 @@ footer img {
     margin-left: auto;
     margin-right: auto;
     width: 800px;
+    border: darkgray 1px solid;
+	border-radius: 20px;
+}
+
+.index {
+	width: 100%;
+	border: darkgray 2px solid;
+	border-radius: 50px;
+	overflow: hidden;
+	background-color: #A2B964;
+	box-shadow: 10px 10px 5px #888888;
+}
+
+.review {
+	width: 100%;
+	border: darkgray 2px solid;
+	border-radius: 50px;
+	overflow: hidden;
+	background-color: #A2B964;
+	box-shadow: 10px 10px 5px #888888;
+}
+
+.review-form {
+	width: 50%;
+	padding-left: 150px;
+	text-align: center;
 }
 
 /* For login-register */

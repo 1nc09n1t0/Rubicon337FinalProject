@@ -25,7 +25,7 @@
 		<h1>Login/Register</h1>
 
 		<br>
-
+		<div class = "login-register">
 			<section class = "login">
 				<h2>Login</h2>
 
@@ -76,10 +76,13 @@
 					<input type = "submit" value = "REGISTER">
 				</form>
 			</section>
-		<div class = "cancel">
-			<a href = "index.php">Cancel</a>
+		
 		</div>
 	</div>
+
+	<div class = "cancel">
+			<a href = "index.php">Cancel</a>
+		</div>
 
 	
 

@@ -36,6 +36,7 @@ session_start();
 	<div class = "container">
 		<h1>Rotten Tomatoes</h1>
 
+		<div class = "index">
 		<div class = "buttons">
 			<form action = "login-register.php">
 				<input type = "submit" value = "LOG IN">
@@ -55,8 +56,8 @@ session_start();
 		Search <input type="text" id="text-search" oninput="getTitles()" onkeypress="getReview(event)">
 		</div>
 
-		<br><br><br>
-
+		<br>
+		<br><br>
 
 		<h3>Suggested titles: </h3>
 		<div id="movie-titles" class="title-box"></div>
@@ -133,7 +134,7 @@ session_start();
 		</footer>
 
 	</div>
-
+	</div>
 	
 
 	<?php
