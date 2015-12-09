@@ -28,11 +28,20 @@
 		$last_name = $_GET['last_name'];
 		$publication = $_GET['publication'];
 		//TODO: Check for pre-existing username (Might just make a new db adaptor function)
+		if (!$myDatabaseFunctions->verifyValidUserName($username)){
+			$_SESSION['loginError'] = "Invalid UserName: That UserName already exists.";
+			header ( "Location: login-register.php");
+		}elseif (!$myDatabaseFunctions->verifyValidIdentity($first_name,$last_name,$publication)){
+			$_SESSION['loginError'] = "Invalid User: The first name, last name, and publication combination are already registerd under another account.";
+			header ( "Location: login-register.php");
+		}else{
+			$myDatabaseFunctions->registerUserName($username, $password, $first_name, $last_name, $publication);
+			$_SESSION['username'] = $username;
+			$_SESSION['message'] = "Logged in as " . $username;
+			header ( "Location: index.php" );
+		}
 
-		$myDatabaseFunctions->registerUserName($username, $password, $first_name, $last_name, $publication);
-		$_SESSION['username'] = $username;
-		$_SESSION['message'] = "Logged in as " . $username;
-		header ( "Location: index.php" );
+
 	}
 	elseif(strcmp($action,"logout")==0){
 		$_SESSION['message'] = "Logged out";

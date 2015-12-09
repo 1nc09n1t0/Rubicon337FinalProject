@@ -97,7 +97,34 @@
 			$currentRecord = $stmt->fetch ();
 			return $currentRecord;
 		}
-		
+
+		// 8) verifyValidUserName: Checks if a username already exists.
+		public function verifyValidUserName($user_name){
+			$stmt = $this->DB->prepare ( "SELECT count(*) as cnt FROM accounts WHERE user_name= :user_name");
+			$stmt->bindParam ( 'user_name', $user_name );
+			$stmt->execute();
+			$countUsers = $stmt->fetchColumn();
+
+			if($countUsers>0){
+				return false;
+			}
+			return true;
+		}
+
+		// 9) verifyValidIdentity: Checks if there is an account with the same first name, last name, and publication
+		public function verifyValidIdentity($first_name, $last_name, $publication){
+			$stmt = $this->DB->prepare ( "SELECT count(*) as cnt FROM accounts WHERE first_name= :first_name AND last_name= :last_name AND publication= :publication");
+			$stmt->bindParam ( 'first_name', $first_name );
+			$stmt->bindParam ( 'last_name', $last_name );
+			$stmt->bindParam ( 'publication', $publication );
+			$stmt->execute();
+			$countUsers = $stmt->fetchColumn();
+
+			if($countUsers>0){
+				return false;
+			}
+			return true;
+		}
 
 		/*
 			REVIEWS TABLE FUNCTIONS
