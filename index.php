@@ -34,7 +34,7 @@ session_start();
 
 
 	<div class = "container">
-		<h1>Index</h1>
+		<h1>Rotten Tomatoes</h1>
 
 		<div class = "buttons">
 			<form action = "login-register.php">
@@ -128,7 +128,13 @@ session_start();
 		 	}
 		</script>
 
+		<footer>
+			<img src = "images/Banner_4.jpg" alt = "ad">
+		</footer>
+
 	</div>
+
+	
 
 	<?php
 

@@ -190,6 +190,14 @@ h3 {
 	text-align: center;
 }
 
+footer img {
+	position: static;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
+}
+
 /* For login-register */
 .login-register {
 	width: 100%;
